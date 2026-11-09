@@ -1,38 +1,39 @@
 #include <stdio.h>
 #include <windows.h>
 
-#define GREEN_SECONDS 10
-#define YELLOW_SECONDS 3
-#define RED_SECONDS (GREEN_SECONDS + YELLOW_SECONDS)
-
-/* Run one direction through green, then yellow, while the other stays red. */
-static void run_direction(const char *green_direction, const char *red_direction)
-{
-    int remaining;
-
-    for (remaining = RED_SECONDS; remaining > 0; --remaining) {
-        if (remaining > YELLOW_SECONDS) {
-            printf("%s: GREEN (%2d s) | %s: RED (%2d s)\n",
-                   green_direction, remaining - YELLOW_SECONDS,
-                   red_direction, remaining);
-        } else {
-            printf("%s: YELLOW (%2d s) | %s: RED (%2d s)\n",
-                   green_direction, remaining,
-                   red_direction, remaining);
-        }
-
-        fflush(stdout);
-        Sleep(1000);
-    }
-}
-
 int main(void)
 {
-    puts("Two-direction traffic light simulation (press Ctrl+C to stop)");
+    int i;
 
-    for (;;) {
-        run_direction("East-West", "North-South");
-        run_direction("North-South", "East-West");
+    while (1)
+    {
+        /* East-West is green; North-South is red. */
+        for (i = 10; i > 0; i--)
+        {
+            printf("East-West: Green %d s | North-South: Red %d s\n", i, i + 3);
+            Sleep(1000);
+        }
+
+        /* East-West is yellow; North-South is still red. */
+        for (i = 3; i > 0; i--)
+        {
+            printf("East-West: Yellow %d s | North-South: Red %d s\n", i, i);
+            Sleep(1000);
+        }
+
+        /* North-South is green; East-West is red. */
+        for (i = 10; i > 0; i--)
+        {
+            printf("North-South: Green %d s | East-West: Red %d s\n", i, i + 3);
+            Sleep(1000);
+        }
+
+        /* North-South is yellow; East-West is still red. */
+        for (i = 3; i > 0; i--)
+        {
+            printf("North-South: Yellow %d s | East-West: Red %d s\n", i, i);
+            Sleep(1000);
+        }
     }
 
     return 0;
